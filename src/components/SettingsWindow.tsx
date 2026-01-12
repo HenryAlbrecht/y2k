@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Window } from './Window';
 import { useAppStore } from '../store/useAppStore';
+import { saveWallpaper, deleteWallpaper } from '../utils/wallpaperStorage';
 
 export const SettingsWindow = () => {
   const { theme, setTheme, bootSound, setBootSound, setHasBooted } = useAppStore();
@@ -33,29 +34,39 @@ export const SettingsWindow = () => {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       const base64 = event.target?.result as string;
+      // Save to IndexedDB asynchronously
+      await saveWallpaper(base64);
       setTempTheme({ ...tempTheme, wallpaper: base64 });
     };
     reader.readAsDataURL(file);
   };
 
-  const handleRemoveWallpaper = () => {
+  const handleRemoveWallpaper = async () => {
+    await deleteWallpaper();
     setTempTheme({ ...tempTheme, wallpaper: null });
   };
 
-  const handleSave = () => {
-    setTheme(tempTheme);
+  const handleSave = async () => {
+    // Save theme colors to localStorage (small data)
+    setTheme({
+      bgColor: tempTheme.bgColor,
+      primary: tempTheme.primary,
+      secondary: tempTheme.secondary,
+      wallpaper: tempTheme.wallpaper,
+    });
     alert('Theme saved! ✨');
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     const defaultTheme = {
       bgColor: '#000000',
       primary: '#000080',
       secondary: '#1084d0',
       wallpaper: null,
     };
+    await deleteWallpaper();
     setTempTheme(defaultTheme);
     setTheme(defaultTheme);
   };

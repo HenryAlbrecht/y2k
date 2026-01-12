@@ -43,6 +43,8 @@ export interface WindowState {
   isOpen: boolean;
   isMinimized: boolean;
   zIndex: number;
+  position: { x: number; y: number };
+  size: { width: number; height: number };
 }
 
 interface AppState {
@@ -69,6 +71,8 @@ interface AppState {
   closeWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
   bringToFront: (id: string) => void;
+  updateWindowPosition: (id: string, position: { x: number; y: number }) => void;
+  updateWindowSize: (id: string, size: { width: number; height: number }) => void;
 
   // Theme
   theme: {
@@ -118,12 +122,12 @@ export const useAppStore = create<AppState>()(
       hasBooted: false,
       bootSound: null,
       windows: {
-        budget: { id: 'budget', isOpen: false, isMinimized: false, zIndex: 15 },
-        todo: { id: 'todo', isOpen: true, isMinimized: false, zIndex: 10 },
-        projects: { id: 'projects', isOpen: false, isMinimized: false, zIndex: 11 },
-        notepad: { id: 'notepad', isOpen: false, isMinimized: false, zIndex: 12 },
-        winamp: { id: 'winamp', isOpen: false, isMinimized: false, zIndex: 13 },
-        settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 14 },
+        budget: { id: 'budget', isOpen: false, isMinimized: false, zIndex: 15, position: { x: 50, y: 50 }, size: { width: 600, height: 650 } },
+        todo: { id: 'todo', isOpen: true, isMinimized: false, zIndex: 10, position: { x: 150, y: 50 }, size: { width: 600, height: 650 } },
+        projects: { id: 'projects', isOpen: false, isMinimized: false, zIndex: 11, position: { x: 250, y: 100 }, size: { width: 500, height: 600 } },
+        notepad: { id: 'notepad', isOpen: false, isMinimized: false, zIndex: 12, position: { x: 200, y: 80 }, size: { width: 500, height: 600 } },
+        winamp: { id: 'winamp', isOpen: false, isMinimized: false, zIndex: 13, position: { x: 400, y: 150 }, size: { width: 450, height: 500 } },
+        settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 14, position: { x: 100, y: 100 }, size: { width: 420, height: 520 } },
       },
       theme: {
         bgColor: '#000000',
@@ -132,7 +136,7 @@ export const useAppStore = create<AppState>()(
         wallpaper: null,
       },
       notepadContent: '',
-transactions: [],
+      transactions: [],
 
       
       // Task actions
@@ -263,6 +267,22 @@ transactions: [],
         }));
       },
 
+      updateWindowPosition: (id, position) =>
+        set((state) => ({
+          windows: {
+            ...state.windows,
+            [id]: { ...state.windows[id], position },
+          },
+        })),
+
+      updateWindowSize: (id, size) =>
+        set((state) => ({
+          windows: {
+            ...state.windows,
+            [id]: { ...state.windows[id], size },
+          },
+        })),
+
       // Theme actions
       setTheme: (theme) =>
         set((state) => ({
@@ -344,6 +364,22 @@ transactions: [],
     }),
     {
       name: 'y2k-storage',
+      partialize: (state) => ({
+        tasks: state.tasks,
+        taskFilter: state.taskFilter,
+        projects: state.projects,
+        windows: state.windows,
+        notepadContent: state.notepadContent,
+        transactions: state.transactions,
+        playlist: state.playlist,
+        currentTrackIndex: state.currentTrackIndex,
+        hasBooted: state.hasBooted,
+        bootSound: state.bootSound,
+        theme: {
+          ...state.theme,
+          wallpaper: null, // Don't persist wallpaper in localStorage
+        },
+      }),
     }
   )
 );

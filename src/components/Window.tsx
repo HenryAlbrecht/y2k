@@ -1,4 +1,5 @@
 import type { ReactNode, CSSProperties } from 'react';
+import { memo } from 'react';
 import { Rnd } from 'react-rnd';
 import { useAppStore } from '../store/useAppStore';
 
@@ -12,7 +13,7 @@ interface WindowProps {
   style?: CSSProperties;
 }
 
-export const Window = ({
+export const Window = memo(({
   id,
   title,
   icon = '💻',
@@ -21,27 +22,44 @@ export const Window = ({
   defaultSize = { width: 500, height: 600 },
   style,
 }: WindowProps) => {
-  const { windows, closeWindow, minimizeWindow, bringToFront } = useAppStore();
-  const windowState = windows[id];
+  const windowState = useAppStore((state) => state.windows[id]);
+  const closeWindow = useAppStore((state) => state.closeWindow);
+  const minimizeWindow = useAppStore((state) => state.minimizeWindow);
+  const bringToFront = useAppStore((state) => state.bringToFront);
+  const updateWindowPosition = useAppStore((state) => state.updateWindowPosition);
+  const updateWindowSize = useAppStore((state) => state.updateWindowSize);
 
   if (!windowState?.isOpen) return null;
 
+  // Use stored position/size if available, otherwise use defaults
+  const position = windowState.position || defaultPosition;
+  const size = windowState.size || defaultSize;
+
   return (
     <Rnd
-      default={{
-        ...defaultPosition,
-        ...defaultSize,
-      }}
+      position={position}
+      size={size}
       minWidth={300}
       minHeight={200}
       bounds="parent"
       cancel=".window-body, .window-menu"
+      dragHandleClassName="title-bar"
       style={{
         zIndex: windowState.zIndex,
         display: windowState.isMinimized ? 'none' : 'block',
         ...style,
       }}
       onMouseDown={() => bringToFront(id)}
+      onDragStop={(e, d) => {
+        updateWindowPosition(id, { x: d.x, y: d.y });
+      }}
+      onResizeStop={(e, direction, ref, delta, position) => {
+        updateWindowSize(id, {
+          width: parseInt(ref.style.width),
+          height: parseInt(ref.style.height),
+        });
+        updateWindowPosition(id, position);
+      }}
     >
       <div className="window">
         <div className="title-bar">
@@ -67,4 +85,4 @@ export const Window = ({
       </div>
     </Rnd>
   );
-};
+});

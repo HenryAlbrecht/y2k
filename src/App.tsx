@@ -9,10 +9,22 @@ import { SettingsWindow } from './components/SettingsWindow';
 import { BudgetWindow } from './components/BudgetWindow';
 import { StartupScreen } from './components/StartupScreen';
 import { useAppStore } from './store/useAppStore';
+import { loadWallpaper } from './utils/wallpaperStorage';
 import './App.css';
 
 function App() {
-  const { theme, hasBooted } = useAppStore();
+  const { theme, hasBooted, setTheme } = useAppStore();
+
+  // Load wallpaper from IndexedDB on mount
+  useEffect(() => {
+    const loadSavedWallpaper = async () => {
+      const wallpaper = await loadWallpaper();
+      if (wallpaper) {
+        setTheme({ wallpaper });
+      }
+    };
+    loadSavedWallpaper();
+  }, [setTheme]);
 
   useEffect(() => {
     document.documentElement.style.setProperty('--neon-pink', theme.primary);
