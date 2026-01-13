@@ -33,6 +33,7 @@ export const WinampWindow = () => {
         audioRef.current.play();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTrackIndex, currentTrack]);
 
   const handleLoadMP3 = (e: React.ChangeEvent<HTMLInputElement>) => {

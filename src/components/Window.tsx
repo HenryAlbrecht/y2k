@@ -50,10 +50,10 @@ export const Window = memo(({
         ...style,
       }}
       onMouseDown={() => bringToFront(id)}
-      onDragStop={(e, d) => {
+      onDragStop={(_e, d) => {
         updateWindowPosition(id, { x: d.x, y: d.y });
       }}
-      onResizeStop={(e, direction, ref, delta, position) => {
+      onResizeStop={(_e, _direction, ref, _delta, position) => {
         updateWindowSize(id, {
           width: parseInt(ref.style.width),
           height: parseInt(ref.style.height),

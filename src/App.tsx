@@ -7,13 +7,16 @@ import { NotepadWindow } from './components/NotepadWindow';
 import { WinampWindow } from './components/WinampWindow';
 import { SettingsWindow } from './components/SettingsWindow';
 import { BudgetWindow } from './components/BudgetWindow';
+import { CalculatorWindow } from './components/CalculatorWindow';
+import { TerminalWindow } from './components/TerminalWindow';
 import { StartupScreen } from './components/StartupScreen';
+import { ShutdownScreen } from './components/ShutdownScreen';
 import { useAppStore } from './store/useAppStore';
 import { loadWallpaper } from './utils/wallpaperStorage';
 import './App.css';
 
 function App() {
-  const { theme, hasBooted, setTheme } = useAppStore();
+  const { theme, hasBooted, isShutdown, setTheme } = useAppStore();
 
   // Load wallpaper from IndexedDB on mount
   useEffect(() => {
@@ -48,6 +51,11 @@ function App() {
     }
   }, [theme]);
 
+  // Show shutdown screen
+  if (isShutdown) {
+    return <ShutdownScreen />;
+  }
+
   // Show boot screen on first visit
   if (!hasBooted) {
     return <StartupScreen />;
@@ -68,6 +76,8 @@ function App() {
       <WinampWindow />
       <SettingsWindow />
       <BudgetWindow />
+      <CalculatorWindow />
+      <TerminalWindow />
 
       <Taskbar />
     </>

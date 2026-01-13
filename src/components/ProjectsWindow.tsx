@@ -3,11 +3,10 @@ import { Window } from './Window';
 import { useAppStore } from '../store/useAppStore';
 
 export const ProjectsWindow = () => {
-  const { projects, tasks, addProject, deleteProject, updateProject } = useAppStore();
+  const { projects, tasks, addProject, deleteProject } = useAppStore();
   const [projectName, setProjectName] = useState('');
   const [projectColor, setProjectColor] = useState('#0078d7');
   const [projectDesc, setProjectDesc] = useState('');
-  const [editingId, setEditingId] = useState<string | null>(null);
 
   const handleAddProject = () => {
     if (!projectName) return;
