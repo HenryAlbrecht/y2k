@@ -14,6 +14,23 @@
   --font-term: 'VT323', monospace;
   --font-ui: 'Silkscreen', cursive;
   --font-body: 'Courier New', monospace;
+  
+  /* Windows XP Theme Variables */
+  --xp-blue: #0054E3;
+  --xp-blue-light: #3C8CF4;
+  --xp-orange: #F18A00;
+  --xp-green: #63B335;
+  --xp-taskbar-blue: #245EDC;
+  --xp-taskbar-blue-light: #3F8CF3;
+  --xp-start-green: #2DB328;
+  --xp-start-green-dark: #1A8315;
+  --xp-gray: #ECE9D8;
+  --xp-gray-dark: #D4D0C8;
+  --xp-border: #003C74;
+  --xp-border-light: #C2D8FF;
+  --xp-shadow: rgba(0, 0, 0, 0.25);
+  --xp-titlebar-grad: linear-gradient(to right, #0054E3 0%, #3C8CF4 100%);
+  --xp-titlebar-inactive-grad: linear-gradient(to right, #7A96DF 0%, #BBD0F5 100%);
 }
 
 * {
@@ -540,4 +557,291 @@ select:focus {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #606060;
+}
+/* Windows XP Styles */
+.winxp .window {
+  background: var(--xp-gray);
+  border: 1px solid var(--xp-border);
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 3px 18px var(--xp-shadow);
+}
+
+.winxp .title-bar {
+  background: var(--xp-titlebar-grad);
+  color: white;
+  padding: 4px 6px;
+  border-radius: 7px 7px 0 0;
+  height: 28px;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.winxp .title-bar-controls button {
+  width: 21px;
+  height: 21px;
+  border: none;
+  border-radius: 3px;
+  background: var(--xp-blue);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+  line-height: 1;
+  font-family: 'Trebuchet MS', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+}
+
+.winxp .title-bar-controls button:hover {
+  background: var(--xp-orange);
+}
+
+.winxp .title-bar-controls button:active {
+  background: var(--xp-blue-light);
+}
+
+.winxp .window-menu {
+  background: var(--xp-gray);
+  padding: 3px 5px;
+  border-bottom: 1px solid #ACA899;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  font-size: 11px;
+}
+
+.winxp .window-menu span:hover {
+  background: var(--xp-blue);
+  color: white;
+  border-radius: 2px;
+}
+
+.winxp .window-body {
+  background: var(--xp-gray);
+  border-radius: 0 0 8px 8px;
+}
+
+/* XP Buttons */
+.winxp .retro-btn {
+  padding: 4px 12px;
+  border: 1px solid #003C74;
+  background: linear-gradient(to bottom, #FFFFFF 0%, #ECE9D8 100%);
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.winxp .retro-btn:hover {
+  background: linear-gradient(to bottom, #FFFFFF 0%, #F0ECE0 100%);
+  border-color: #0054E3;
+}
+
+.winxp .retro-btn:active {
+  background: linear-gradient(to bottom, #D8D5C8 0%, #ECE9D8 100%);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.winxp .retro-btn.primary {
+  background: linear-gradient(to bottom, #FFD964 0%, #F18A00 100%);
+  border-color: #003C74;
+  color: #000;
+  font-weight: bold;
+}
+
+.winxp .retro-btn.primary:hover {
+  background: linear-gradient(to bottom, #FFE082 0%, #F59B20 100%);
+}
+
+/* XP Taskbar */
+.winxp #taskbar {
+  background: linear-gradient(to bottom, var(--xp-taskbar-blue-light) 0%, var(--xp-taskbar-blue) 100%);
+  border-top: none;
+  height: 32px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  padding: 0 2px;
+}
+
+.winxp #start-btn {
+  padding: 3px 8px;
+  background: linear-gradient(to bottom, #5ECC3F 0%, #2DB328 100%);
+  border: 1px solid #1A8315;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 11px;
+  height: 28px;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+}
+
+.winxp #start-btn:hover {
+  background: linear-gradient(to bottom, #6FDD50 0%, #3FC439 100%);
+}
+
+.winxp #start-btn:active {
+  background: linear-gradient(to bottom, #4DBB2F 0%, #2A9F20 100%);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.winxp .taskbar-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 3px;
+  box-shadow: 1px 0 0 rgba(0, 0, 0, 0.2);
+}
+
+.winxp .taskbar-app {
+  padding: 3px 8px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  height: 26px;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+}
+
+.winxp .taskbar-app:hover {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.2) 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.winxp .taskbar-app.minimized {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.winxp #clock {
+  padding: 3px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #5ECBF3 0%, #2B9DD8 100%);
+  color: white;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  height: 26px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* XP Start Menu */
+.winxp #start-menu {
+  width: 380px;
+  background: linear-gradient(to bottom, #FFFFFF 0%, #E8E5D7 100%);
+  border: 1px solid #5A7EDC;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.winxp .start-sidebar {
+  width: 50px;
+  background: linear-gradient(to bottom, #3C8CF4 0%, #0054E3 100%);
+  color: white;
+  border-radius: 7px 0 0 0;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.winxp .start-items {
+  padding: 8px 0;
+  background: transparent;
+}
+
+.winxp .start-item {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  border-radius: 3px;
+  margin: 2px 4px;
+}
+
+.winxp .start-item:hover {
+  background: linear-gradient(to right, #5291FF 0%, #3A7EE8 100%);
+  color: white;
+}
+
+.winxp .start-items hr {
+  border-top: 1px solid #B0ADA1;
+  margin: 5px 8px;
+}
+
+/* XP Inputs */
+.winxp input[type="text"],
+.winxp input[type="date"],
+.winxp textarea,
+.winxp select {
+  border: 1px solid #7F9DB9;
+  background: white;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  border-radius: 2px;
+}
+
+.winxp input[type="text"]:focus,
+.winxp textarea:focus,
+.winxp select:focus {
+  outline: none;
+  border-color: #0054E3;
+  box-shadow: 0 0 3px rgba(0, 84, 227, 0.3);
+}
+
+/* XP Task Items */
+.winxp .task-item {
+  border: 1px solid #ACA899;
+  border-radius: 4px;
+  background: white;
+}
+
+.winxp .task-item:hover {
+  border-color: var(--xp-blue);
+  box-shadow: 0 0 5px rgba(0, 84, 227, 0.3);
+}
+
+/* XP Desktop Icons */
+.winxp .desktop-icon {
+  color: white;
+  text-shadow: 
+    1px 1px 2px rgba(0, 0, 0, 0.9),
+    -1px -1px 2px rgba(0, 0, 0, 0.9),
+    1px -1px 2px rgba(0, 0, 0, 0.9),
+    -1px 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.winxp .desktop-icon:hover {
+  transform: scale(1.05);
+}
+
+/* XP Add Task Form */
+.winxp .add-task-form {
+  background: #F3F1E8;
+  border: 1px solid #ACA899;
+  border-radius: 4px;
+}
+
+.winxp .winamp-btn {
+  background: linear-gradient(to bottom, #FFFFFF 0%, #ECE9D8 100%);
+  border: 1px solid #003C74;
+  border-radius: 3px;
+  color: #000;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+}
+
+.winxp .winamp-btn:hover {
+  background: linear-gradient(to bottom, #FFFFFF 0%, #F0ECE0 100%);
+  border-color: var(--xp-blue);
 }

@@ -5,13 +5,25 @@ import { saveWallpaper, deleteWallpaper } from '../utils/wallpaperStorage';
 
 export const SettingsWindow = () => {
   const { theme, setTheme, bootSound, setBootSound, setHasBooted } = useAppStore();
-  const [tempTheme, setTempTheme] = useState(theme);
+  const [tempTheme, setTempTheme] = useState({
+    ...theme,
+    osStyle: theme.osStyle || 'win98', // Fallback for existing users
+  });
 
   // Apply preview in real-time
   useEffect(() => {
     document.documentElement.style.setProperty('--neon-pink', tempTheme.primary);
     document.documentElement.style.setProperty('--neon-cyan', tempTheme.secondary);
     document.body.style.backgroundColor = tempTheme.bgColor;
+    
+    // Apply OS style class to body
+    if (tempTheme.osStyle === 'winxp') {
+      document.body.classList.add('winxp');
+      document.body.classList.remove('win98');
+    } else {
+      document.body.classList.add('win98');
+      document.body.classList.remove('winxp');
+    }
     
     if (tempTheme.wallpaper) {
       document.body.style.backgroundImage = `url(${tempTheme.wallpaper})`;
@@ -55,6 +67,7 @@ export const SettingsWindow = () => {
       primary: tempTheme.primary,
       secondary: tempTheme.secondary,
       wallpaper: tempTheme.wallpaper,
+      osStyle: tempTheme.osStyle,
     });
     alert('Theme saved! ✨');
   };
@@ -65,6 +78,7 @@ export const SettingsWindow = () => {
       primary: '#000080',
       secondary: '#1084d0',
       wallpaper: null,
+      osStyle: 'win98' as 'win98' | 'winxp',
     };
     await deleteWallpaper();
     setTempTheme(defaultTheme);
@@ -154,6 +168,16 @@ export const SettingsWindow = () => {
             onChange={(e) => setTempTheme({ ...tempTheme, secondary: e.target.value })}
             style={{ width: '100%', height: '35px', cursor: 'pointer' }}
           />
+
+          <label style={{ marginTop: '12px', fontWeight: 'bold' }}>Windows Style:</label>
+          <select
+            value={tempTheme.osStyle}
+            onChange={(e) => setTempTheme({ ...tempTheme, osStyle: e.target.value as 'win98' | 'winxp' })}
+            style={{ width: '100%', padding: '8px', fontSize: '13px' }}
+          >
+            <option value="win98">🪟 Windows 98 (Classic)</option>
+            <option value="winxp">🪟 Windows XP (Luna)</option>
+          </select>
         </div>
 
         <h3 style={{ marginTop: '20px' }}>Boot Settings</h3>

@@ -80,6 +80,7 @@ interface AppState {
     primary: string;
     secondary: string;
     wallpaper: string | null;
+    osStyle: 'win98' | 'winxp';
   };
   setTheme: (theme: Partial<AppState['theme']>) => void;
 
@@ -139,6 +140,7 @@ export const useAppStore = create<AppState>()(
         primary: '#000080',
         secondary: '#1084d0',
         wallpaper: null,
+        osStyle: 'win98',
       },
       notepadContent: '',
       transactions: [],

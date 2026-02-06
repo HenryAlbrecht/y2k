@@ -34,6 +34,16 @@ function App() {
     document.documentElement.style.setProperty('--neon-cyan', theme.secondary);
     document.body.style.backgroundColor = theme.bgColor;
     
+    // Apply OS style class to body (with fallback for existing users)
+    const osStyle = theme.osStyle || 'win98';
+    if (osStyle === 'winxp') {
+      document.body.classList.add('winxp');
+      document.body.classList.remove('win98');
+    } else {
+      document.body.classList.add('win98');
+      document.body.classList.remove('winxp');
+    }
+    
     // Apply wallpaper
     if (theme.wallpaper) {
       document.body.style.backgroundImage = `url(${theme.wallpaper})`;
