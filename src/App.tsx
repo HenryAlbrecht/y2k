@@ -7,13 +7,16 @@ import { NotepadWindow } from './components/NotepadWindow';
 import { WinampWindow } from './components/WinampWindow';
 import { SettingsWindow } from './components/SettingsWindow';
 import { BudgetWindow } from './components/BudgetWindow';
+import { CalculatorWindow } from './components/CalculatorWindow';
+import { TerminalWindow } from './components/TerminalWindow';
 import { StartupScreen } from './components/StartupScreen';
+import { ShutdownScreen } from './components/ShutdownScreen';
 import { useAppStore } from './store/useAppStore';
 import { loadWallpaper } from './utils/wallpaperStorage';
 import './App.css';
 
 function App() {
-  const { theme, hasBooted, setTheme } = useAppStore();
+  const { theme, hasBooted, isShutdown, setTheme } = useAppStore();
 
   // Load wallpaper from IndexedDB on mount
   useEffect(() => {
@@ -31,6 +34,16 @@ function App() {
     document.documentElement.style.setProperty('--neon-cyan', theme.secondary);
     document.body.style.backgroundColor = theme.bgColor;
     
+    // Apply OS style class to body (with fallback for existing users)
+    const osStyle = theme.osStyle || 'win98';
+    if (osStyle === 'winxp') {
+      document.body.classList.add('winxp');
+      document.body.classList.remove('win98');
+    } else {
+      document.body.classList.add('win98');
+      document.body.classList.remove('winxp');
+    }
+    
     // Apply wallpaper
     if (theme.wallpaper) {
       document.body.style.backgroundImage = `url(${theme.wallpaper})`;
@@ -47,6 +60,11 @@ function App() {
       document.body.style.backgroundSize = '100% 100%, 50px 50px, 50px 50px';
     }
   }, [theme]);
+
+  // Show shutdown screen
+  if (isShutdown) {
+    return <ShutdownScreen />;
+  }
 
   // Show boot screen on first visit
   if (!hasBooted) {
@@ -68,6 +86,8 @@ function App() {
       <WinampWindow />
       <SettingsWindow />
       <BudgetWindow />
+      <CalculatorWindow />
+      <TerminalWindow />
 
       <Taskbar />
     </>

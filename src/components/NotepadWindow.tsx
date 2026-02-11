@@ -1,19 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Window } from './Window';
 import { useAppStore } from '../store/useAppStore';
 
 export const NotepadWindow = () => {
   const { notepadContent, setNotepadContent } = useAppStore();
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [wordCount, setWordCount] = useState(0);
-  const [charCount, setCharCount] = useState(0);
 
-  useEffect(() => {
-    const words = notepadContent.trim().split(/\s+/).filter(Boolean).length;
-    const chars = notepadContent.length;
-    setWordCount(words);
-    setCharCount(chars);
-  }, [notepadContent]);
+  const wordCount = notepadContent.trim().split(/\s+/).filter(Boolean).length;
+  const charCount = notepadContent.length;
 
   const handleSave = () => {
     setLastSaved(new Date());

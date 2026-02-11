@@ -38,16 +38,6 @@ export const TodoWindow = () => {
     }
   };
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'not-started': return '⏸ Not Started';
-      case 'in-progress': return '▶ In Progress';
-      case 'completed': return '✓ Completed';
-      case 'cancelled': return '✕ Cancelled';
-      default: return status;
-    }
-  };
-
   const handleAddTask = () => {
     if (!title) {
       alert('Error: Task title is missing! System failure imminent!');
@@ -109,7 +99,7 @@ export const TodoWindow = () => {
           style={{ resize: 'vertical' }}
         />
         <div className="form-row">
-          <select value={priority} onChange={(e) => setPriority(e.target.value as any)}>
+          <select value={priority} onChange={(e) => setPriority(e.target.value as 'high' | 'medium' | 'low')}>
             <option value="high">!!! HIGH !!!</option>
             <option value="medium">Medium</option>
             <option value="low">Low ~chill~</option>
@@ -203,7 +193,7 @@ export const TodoWindow = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '5px' }}>
                   <select
                     value={task.status}
-                    onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
+                    onChange={(e) => updateTaskStatus(task.id, e.target.value as 'not-started' | 'in-progress' | 'completed' | 'cancelled')}
                     style={{
                       padding: '2px 4px',
                       fontSize: '11px',

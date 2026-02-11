@@ -115,7 +115,7 @@ export const BudgetWindow = () => {
               type="radio"
               value="income"
               checked={type === 'income'}
-              onChange={(e) => {
+              onChange={() => {
                 setType('income');
                 setCategory('');
               }}
@@ -127,7 +127,7 @@ export const BudgetWindow = () => {
               type="radio"
               value="expense"
               checked={type === 'expense'}
-              onChange={(e) => {
+              onChange={() => {
                 setType('expense');
                 setCategory('');
               }}

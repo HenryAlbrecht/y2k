@@ -80,6 +80,7 @@ interface AppState {
     primary: string;
     secondary: string;
     wallpaper: string | null;
+    osStyle: 'win98' | 'winxp';
   };
   setTheme: (theme: Partial<AppState['theme']>) => void;
 
@@ -103,10 +104,12 @@ interface AppState {
   playNext: () => void;
   playPrevious: () => void;
 
-  // Boot
+  // Boot & Shutdown
   hasBooted: boolean;
+  isShutdown: boolean;
   bootSound: string | null;
   setHasBooted: (value: boolean) => void;
+  setShutdown: (value: boolean) => void;
   setBootSound: (sound: string | null) => void;
 }
 
@@ -120,6 +123,7 @@ export const useAppStore = create<AppState>()(
       playlist: [],
       currentTrackIndex: -1,
       hasBooted: false,
+      isShutdown: false,
       bootSound: null,
       windows: {
         budget: { id: 'budget', isOpen: false, isMinimized: false, zIndex: 15, position: { x: 50, y: 50 }, size: { width: 600, height: 650 } },
@@ -128,12 +132,15 @@ export const useAppStore = create<AppState>()(
         notepad: { id: 'notepad', isOpen: false, isMinimized: false, zIndex: 12, position: { x: 200, y: 80 }, size: { width: 500, height: 600 } },
         winamp: { id: 'winamp', isOpen: false, isMinimized: false, zIndex: 13, position: { x: 400, y: 150 }, size: { width: 450, height: 500 } },
         settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 14, position: { x: 100, y: 100 }, size: { width: 420, height: 520 } },
+        calculator: { id: 'calculator', isOpen: false, isMinimized: false, zIndex: 15, position: { x: 300, y: 200 }, size: { width: 200, height: 280 } },
+        terminal: { id: 'terminal', isOpen: false, isMinimized: false, zIndex: 16, position: { x: 350, y: 250 }, size: { width: 500, height: 350 } },
       },
       theme: {
         bgColor: '#000000',
         primary: '#000080',
         secondary: '#1084d0',
         wallpaper: null,
+        osStyle: 'win98',
       },
       notepadContent: '',
       transactions: [],
@@ -360,6 +367,7 @@ export const useAppStore = create<AppState>()(
 
       // Boot actions
       setHasBooted: (value) => set({ hasBooted: value }),
+      setShutdown: (value) => set({ isShutdown: value }),
       setBootSound: (sound) => set({ bootSound: sound }),
     }),
     {
@@ -374,6 +382,7 @@ export const useAppStore = create<AppState>()(
         playlist: state.playlist,
         currentTrackIndex: state.currentTrackIndex,
         hasBooted: state.hasBooted,
+        // isShutdown: state.isShutdown, // Don't persist shutdown state
         bootSound: state.bootSound,
         theme: {
           ...state.theme,

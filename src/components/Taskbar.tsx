@@ -39,6 +39,21 @@ export const Taskbar = () => {
     });
   };
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  const handleReset = () => {
+    if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+      localStorage.clear();
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       {/* Start Menu */}
@@ -61,14 +76,20 @@ export const Taskbar = () => {
             <div className="start-item" onClick={() => { openWindow('budget'); setShowStartMenu(false); }}>
               💰 Budget
             </div>
+            <div className="start-item" onClick={() => { openWindow('calculator'); setShowStartMenu(false); }}>
+              🧮 Calculator
+            </div>
+            <div className="start-item" onClick={() => { openWindow('terminal'); setShowStartMenu(false); }}>
+              &gt;_ Terminal
+            </div>
             <div className="start-item" onClick={() => { openWindow('settings'); setShowStartMenu(false); }}>
               ⚙️ Settings
             </div>
             <hr />
-            <div className="start-item" onClick={() => alert('Reset not implemented')}>
+            <div className="start-item" onClick={handleReset}>
               ♻️ Reset Data
             </div>
-            <div className="start-item" onClick={() => window.close()}>
+            <div className="start-item" onClick={() => useAppStore.getState().setShutdown(true)}>
               🚪 Shut Down
             </div>
           </div>
@@ -95,13 +116,18 @@ export const Taskbar = () => {
                 {key === 'winamp' && '⚡'}
                 {key === 'settings' && '⚙️'}
                 {key === 'budget' && '💰'}
+                {key === 'calculator' && '🧮'}
+                {key === 'terminal' && '>_'}
                 {' '}{key.charAt(0).toUpperCase() + key.slice(1)}
               </button>
             ) : null
           )}
         </div>
         <div className="taskbar-divider"></div>
-        <div id="clock">{formatTime(time)}</div>
+        <div id="clock" title={time.toLocaleDateString()}>
+          <span style={{ marginRight: '8px', fontSize: '11px', color: '#444' }}>{formatDate(time)}</span>
+          {formatTime(time)}
+        </div>
       </div>
     </>
   );
